@@ -51,7 +51,10 @@ To analyze Target Brazil's marketplace operations, **8 relational tables** (span
 ### 1. State-Level Customer Distribution
 
 <div align="center">
-  <img src="screenshots/01_customer_distribution.png" alt="Customer Distribution" width="750">
+  <a href="screenshots/01_customer_distribution.png" target="_blank">
+    <img src="screenshots/01_customer_distribution.png" alt="Customer Distribution" width="550" style="border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+  </a>
+  <p><sub>🔍 <i>Click image to expand full query results in a new tab</i></sub></p>
 </div>
 
 > [!NOTE]
@@ -74,7 +77,7 @@ To analyze Target Brazil's marketplace operations, **8 relational tables** (span
 | Installment Checkout Behavior | Catalog Revenue & Volume Concentration |
 | :--- | :--- |
 | <img src="screenshots/04_payment_installments.png" width="450"> | <img src="screenshots/05_top_bottom_categories.png" width="450"> |
-| **Financing Trends:** Over **48% of transactions** rely on multi-installment payment plans (2 to 10+ monthly payments) to complete purchases. | **Demand Skew:** Top categories like *Bed/Bath* drive ~10,000 orders each, whereas long-tail categories (*PC Gaming*, *CDs*) generate under 15 orders total. |
+| **Financing Trends:** Over **48% of transactions** rely on multi-installment payment plans (2 to 10+ monthly payments) to complete purchases. | **Demand Skew:** Top categories like *Bed/Bath* drive ~10,000 orders each, whereas long-tail categories (*PC Gaming*, *CDs*) generate 20 orders total. |
 
 ---
 
