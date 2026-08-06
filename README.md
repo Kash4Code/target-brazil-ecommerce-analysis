@@ -116,7 +116,7 @@ To analyze Target Brazil's marketplace operations, **8 relational tables** (span
 Platform & Warehouse :  Google BigQuery (Cloud Environment)
 SQL Dialect        :  Google Standard SQL
 Advanced Techniques:  CTEs, Subqueries, Window Functions (NTILE, ROW_NUMBER, LAG), Conditional Aggregation (CASE WHEN), Date/Time Arithmetic
-Database Architecture:  8-Table Relational Schema (100,000+ Orders)
+Database Architecture:  7-Table Relational Schema (100,000+ Orders)
 ```
 
 ---
