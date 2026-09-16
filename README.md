@@ -1,183 +1,47 @@
-<div align="center">
+# Target E-Commerce SQL Analysis
 
-# 🛒 Target E-Commerce SQL Analysis
+## Business Question
+Where do regional demand concentration, delivery performance, payment behavior, and seller concentration create operational risk or growth opportunity for Target's e-commerce marketplace in Brazil?
 
-[![Google BigQuery](https://img.shields.io/badge/Google_BigQuery-4285F4?style=for-the-badge&logo=googlecloud&logoColor=white)](https://cloud.google.com/bigquery)
+## Dataset
+- **Source:** Target Brazil e-commerce dataset — 7 relational tables (`customers`, `orders`, `order_items`, `payments`, `order_reviews`, `products`, `sellers`)
+- **Size:** 100,000+ orders spanning 2016-2018
+- **Description:** Order-level and line-item transaction data including customer geography, full order lifecycle timestamps, payment methods and installment counts, review scores, product categories, and seller registration details.
 
-</div>
+## Tools Used
+- SQL (Google BigQuery, Standard SQL) — querying and joining across 7 relational tables
+- SQL window functions (NTILE, ROW_NUMBER, LAG) — seller revenue concentration and trend analysis
+- SQL CTEs, subqueries, conditional aggregation, date/time arithmetic — delivery SLA and cohort calculations
 
----
-
-## 📌 Business Problem & Key Objectives
-
-In large-scale e-commerce marketplaces, managing cross-regional fulfillment, maintaining customer delivery satisfaction, optimizing checkout conversion rates, and mitigating merchant concentration risks are vital for sustainable revenue growth. 
-
-Acting as a Lead Data Analyst, this project executes advanced BigQuery SQL queries on **Target Brazil's 8-table relational dataset** (spanning 2016 to 2018) to uncover operational inefficiencies and supply chain bottlenecks.
-
-### Core Goals
-* **🗺️ Analyze Regional Distribution:** Map order density, revenue patterns, and customer geographic concentration across 27 Brazilian states.
-* **🚚 Measure Logistics SLAs:** Quantify actual vs. estimated delivery times and evaluate the direct impact of late fulfillment on customer review scores.
-* **💳 Evaluate Payment Behavior:** Examine checkout payment methods, credit card adoption, and consumer reliance on multi-installment financing options.
-* **🏬 Assess Merchant Concentration:** Apply SQL window functions (`NTILE`) to determine seller revenue distribution and assess marketplace seller-risk.
-
----
-
-## 🗄️ Database Architecture & Relational Schema
-
-To analyze Target Brazil's marketplace operations, **8 relational tables** (spanning 100,000+ orders from 2016 to 2018) were ingested into Google BigQuery. 
-
-<div align="center">
-  <a href="erd.png" target="_blank">
-    <img src="erd.png" alt="Relational Database Schema ERD" width="550" style="border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-  </a>
-  <p><sub>🔍 <i>Click the diagram to open full high-resolution ERD in a new tab</i></sub></p>
-</div>
-
-### 📋 Data Dictionary & Table Overview
-| Table Name | Description / Primary Key (PK) |
-| :--- | :--- |
-| **`customers`** | Stores customer unique IDs, location details, city, and Brazilian state code (`customer_id` PK). |
-| **`orders`** | Captures order lifecycle timestamps including purchase, approval, carrier dispatch, actual delivery, and estimated delivery dates (`order_id` PK). |
-| **`order_items`** | Contains line-item level transaction details, product associations, merchant IDs, item prices, and freight values. |
-| **`payments`** | Tracks transaction payment channels (credit card, boleto/UPI, voucher), single vs. multi-installment counts, and total transaction values. |
-| **`order_reviews`** | Records customer satisfaction review ratings (1 to 5 stars) and review submission timestamps (`review_id` PK). |
-| **`products`** | Stores product catalog attributes including category names, photo quantities, and physical package dimensions (`product_id` PK). |
-| **`sellers`** | Contains merchant registration profiles, zip code prefixes, city, and state locations (`seller_id` PK). |
-
----
-
-## 📊 Key Insights & Visualizations
-
-### 1. State-Level Customer Distribution
-
-<div align="center">
-  <a href="screenshots/01_customer_distribution.png" target="_blank">
-    <img src="screenshots/01_customer_distribution.png" alt="Customer Distribution" width="550" style="border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-  </a>
-  <p><sub>🔍 <i>Click image to expand full query results in a new tab</i></sub></p>
-</div>
-
-> [!NOTE]
-> * **São Paulo Dominance:** São Paulo (`SP`) represents **~41.98% of total customer volume**, followed by Rio de Janeiro (`RJ`, 12.92%) and Minas Gerais (`MG`, 11.7%).
-> * **Fulfillment Hub Alignment:** Supply chain infrastructure and primary distribution centers are heavily concentrated in southeastern Brazil.
-
----
-
-### 2. Delivery SLA Impact & Regional Speed Disparities
-
-| Delivery Delays vs. Review Scores | Delivery Speed Disparities by State |
-| :--- | :--- |
-| <img src="screenshots/02_delivery_vs_reviews.png" width="450"> | <img src="screenshots/03_freight_and_delivery_by_state.png" width="450"> |
-| **SLA Rating Drop:** On-time/early orders maintain an average rating of **4.29 stars**. When deliveries are delayed, review scores drop by **~47% down to 2.27 stars**. | **Geographic Disparities:** Southeastern states benefit from significantly faster fulfillment, whereas northern and northeastern states face prolonged delivery lead times and higher freight rates. |
-
----
-
-### 3. Payment Financing & Product Demand Skew
-
-| Installment Checkout Behavior | Catalog Revenue & Volume Concentration |
-| :--- | :--- |
-| <img src="screenshots/04_payment_installments.png" width="450"> | <img src="screenshots/05_top_bottom_categories.png" width="450"> |
-| **Financing Trends:** Over **48% of transactions** rely on multi-installment payment plans (2 to 10+ monthly payments) to complete purchases. | **Demand Skew:** Top categories like *Bed/Bath* drive ~10,000 orders each, whereas long-tail categories (*PC Gaming*, *CDs*) generate 20 orders total. |
-
----
-
-### 4. Merchant Concentration Risk (`NTILE`)
-
-<div align="center">
-  <img src="screenshots/06_seller_concentration.png" alt="Seller Concentration" width="750">
-</div>
-
-> [!WARNING]
-> * **High Seller Reliance:** Utilizing SQL window functions (`NTILE(100)`), the analysis isolated that the **Top 5% of active sellers generate 53% of overall marketplace revenue**. Loss of top-tier merchants presents a severe operational vulnerability.
-
----
-
-## 💡 Final Conclusion & Strategic Recommendations
-
-> [!TIP]
-> ### 🏆 Actionable Business Strategy for Stakeholders
-> Based on the data analysis, the following actionable initiatives should be executed to enhance fulfillment efficiency, improve customer retention, and safeguard marketplace revenue:
-
-### 1. Optimize Supply Chain & Regional Logistics
-* **Secondary Logistics Hubs:** Build regional distribution centers or partner with localized 3PL providers in remote northeastern states to reduce delivery lead times and lower freight fees.
-* **Automated Delay Alerts:** Implement proactive SLA tracking to notify customers before delays occur, mitigating review score drops from 4.29 to 2.27 stars.
-
-### 2. Enhance Checkout & Payment Operations
-* **Promote Installment Offers:** Since ~48% of customers rely on multi-installment plans, partner with local financial institutions to offer zero-interest 3-to-6-month installment options during peak holiday sales.
-
-### 3. Merchant Retention & Risk Mitigation
-* **Top-Seller Loyalty Program:** Create dedicated account management support and fee incentives for the Top 5% of merchants who drive 53% of GMV to prevent platform churn.
-
----
-
-## 🛠️ Tools & Tech Stack
-
-```text
-Platform & Warehouse :  Google BigQuery (Cloud Environment)
-SQL Dialect        :  Google Standard SQL
-Advanced Techniques:  CTEs, Subqueries, Window Functions (NTILE, ROW_NUMBER, LAG), Conditional Aggregation (CASE WHEN), Date/Time Arithmetic
-Database Architecture:  7-Table Relational Schema (100,000+ Orders)
-```
-
----
-
-## 📁 Repository Structure
-
-```text
-target-ecommerce-sql-analysis/
-├── data/                                 # Raw relational CSV datasets
-│   ├── customers.csv
-│   ├── order_items.csv
-│   ├── order_reviews.csv
-│   ├── orders.csv
-│   ├── payments.csv
-│   ├── products.csv
-│   └── sellers.csv
-├── queries/                              # Categorized BigQuery Standard SQL scripts
-│   ├── 01_exploratory_data_analysis.sql
-│   ├── 02_order_trends_and_seasonality.sql
-│   ├── 03_regional_distribution_and_economics.sql
-│   ├── 04_logistics_and_delivery_performance.sql
-│   ├── 05_payment_behaviors.sql
-│   └── 06_product_and_seller_analytics.sql
-├── screenshots/                          # Visual BigQuery query output grids
-│   ├── 01_customer_distribution.png
-│   ├── 02_delivery_vs_reviews.png
-│   ├── 03_freight_and_delivery_by_state.png
-│   ├── 04_payment_installments.png
-│   ├── 05_top_bottom_categories.png
-│   └── 06_seller_concentration.png
-├── erd.png                               # Entity Relationship Diagram (ERD)
-└── README.md                             # Project documentation
-```
-
----
-
-## 🚀 How to Run the Project Locally
-
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/Kash4Code/target-ecommerce-sql-analysis.git
-   cd target-ecommerce-sql-analysis
-   ```
+## Key Findings
+1. **Customer demand is heavily concentrated in São Paulo** — SP accounts for ~41.98% of total customers, more than triple Rio de Janeiro (12.92%), reinforcing why fulfillment infrastructure is concentrated in the southeast.
    
-2. **Set Up Google BigQuery**
-   * Open the Google BigQuery Console.
-   * Create a new dataset named TARGET_SQL.
-   * Import the 7 CSV files located in the data/ directory into your TARGET_SQL dataset.
+   <img src="screenshots/01_customer_distribution.png" alt="Customer Distribution" width="550">
    
-3. **Execute Analysis Queries**
-   * Open BigQuery Studio.
-   * Create a new dataset named TARGET_SQL.Copy any .sql script from the queries/ directory into the query editor.
-   * Click Run to view the analytical results.
+2. **Late deliveries sharply damage customer satisfaction** — average review rating drops from 4.29 stars (on-time/early orders) to 2.27 stars (delayed orders), a ~47% decline.
 
----
+   <img src="screenshots/02_delivery_vs_reviews.png" width="450">
+   
+3. **Marketplace revenue is highly dependent on a small seller cohort** — using `NTILE(100)`, the top 5% of sellers generate 53% of total marketplace revenue, creating meaningful platform risk if any churn.
 
-## 🌟 Support & Feedback
+   <img src="screenshots/06_seller_concentration.png" width="500">
+   
+4. **Nearly half of transactions rely on financing at checkout** — 48%+ of orders use multi-installment payment plans (2-10+ months), indicating price sensitivity and financing dependence among buyers.
 
-If you found this project helpful or insightful, please consider **starring** ⭐ the repository and **forking** 🍴 it to build upon it!
+   <img src="screenshots/04_payment_installments.png" width="450">
 
-Have suggestions or feedback? Feel free to open an issue or connect with me:
+## Recommendations
+- **Build secondary logistics hubs or local 3PL partnerships** in the north/northeast to close the delivery-speed and freight-cost gap with the southeast.
+- **Implement proactive delay alerts** so customers are notified before an SLA is missed, reducing the review-score damage caused by late fulfillment.
+- **Create a top-seller retention program** (dedicated account support, fee incentives) for the top 5% of sellers responsible for over half of platform revenue, given the concentration risk they represent.
 
-[![GitHub](https://img.shields.io/badge/GitHub-Kash4Code-181717?style=flat&logo=github)](https://github.com/Kash4Code)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=flat&logo=linkedin)](https://www.linkedin.com/in/kashinathrp/)
+## Files
+- `data/` — raw relational CSVs (customers, orders, order_items, payments, order_reviews, products, sellers)
+- `queries/01_exploratory_data_analysis.sql` through `06_product_and_seller_analytics.sql` — categorized analysis scripts
+- `screenshots/` — BigQuery query output visuals referenced above
+- `erd.png` — entity relationship diagram of the 7-table schema
+
+## Methodology
+All 7 tables were ingested into Google BigQuery and joined using a combination of CTEs, subqueries, and conditional aggregation to answer questions spanning four areas: regional distribution, delivery performance, payment behavior, and seller concentration. Delivery performance was assessed by comparing actual delivery timestamps against estimated delivery dates to flag late orders, then joining that flag against review scores to quantify the satisfaction impact. Seller concentration was measured using the `NTILE(100)` window function to bucket sellers into revenue percentiles, isolating how much of total marketplace revenue depends on the top tier.
+
+**Limitations:** The dataset covers 2016-2018 only, so findings reflect historical marketplace conditions rather than current performance. The relationship between delivery delay and review score is a correlation, not a controlled causal test — other factors (product quality, packaging, customer service) also influence ratings and weren't isolated here. Seller concentration is measured by revenue only; it doesn't account for margin, so the highest-revenue sellers aren't necessarily the most profitable ones to retain.
