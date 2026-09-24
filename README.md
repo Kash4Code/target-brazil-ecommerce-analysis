@@ -1,4 +1,4 @@
-# Target E-Commerce Analysis
+# Target Brazil E-Commerce Analysis
 
 ## Business Question
 Where do regional demand concentration, delivery performance, payment behavior, and seller concentration create operational risk or growth opportunity for Target's e-commerce marketplace in Brazil?
