@@ -53,7 +53,7 @@ Where do regional demand concentration, delivery performance, payment behavior, 
 
 To make these findings accessible to non-technical stakeholders, I built a 2-page interactive dashboard in Tableau, structured directly around the project's core business question: where do regional demand concentration, delivery performance, payment behavior, and seller concentration create operational risk or growth opportunity for the marketplace?
 
-**[View the Live Dashboard on Tableau Public →](https://public.tableau.com/app/profile/kashinath.r.p/viz/TargetBrazilWhereDemandDeliverySellerRiskMeetOpportunity/D1)**
+**[View the Live Dashboard on Tableau Public →](https://public.tableau.com/app/profile/kashinath.r.p/viz/TargetBrazilWhereDemandDeliverySellerRiskMeetOpportunity/DemandDeliveryOverview)**
 
 ### Design Approach
 - **Page 1 – Demand & Delivery Risk:** State-level order concentration, delivery status breakdown, and the delivery-to-satisfaction link (average review score drops from 4.29 to 1.75 stars when an order isn't delivered on time).
