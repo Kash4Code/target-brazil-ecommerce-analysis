@@ -5,9 +5,24 @@ Where do regional demand concentration, delivery performance, payment behavior, 
 
 
 ## Dataset
-- **Source:** Target Brazil e-commerce dataset — 7 relational tables (`customers`, `orders`, `order_items`, `payments`, `order_reviews`, `products`, `sellers`)
-- **Size:** 100,000+ orders spanning 2016-2018
-- **Description:** Order-level and line-item transaction data including customer geography, full order lifecycle timestamps, payment methods and installment counts, review scores, product categories, and seller registration details.
+
+* **Source:** Target Brazil e-commerce dataset — 7 relational tables (`customers`, `orders`, `order_items`, `payments`, `order_reviews`, `products`, `sellers`)
+* **Timeframe:** 2016–2018
+* **Description:** Order-level and line-item transaction data including customer geography, full order lifecycle timestamps, payment methods and installment counts, review scores, product categories, and seller registration details.
+
+**Table sizes:**
+
+| Table | Records |
+|---|---|
+| `orders` | 99,441 |
+| `customers` | 99,441 |
+| `order_items` | 112,650 |
+| `payments` | 103,886 |
+| `order_reviews` | 99,224 |
+| `products` | 32,951 |
+| `sellers` | 3,096 |
+
+> **Note:** `order_items` and `payments` exceed `orders` because a single order can contain multiple line items and, in some cases, multiple payment transactions (e.g. part credit card, part voucher).
 
 
 ## Tools Used
